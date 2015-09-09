@@ -20,20 +20,24 @@ public class TCPServer {
             System.out.println("Starting server...");
             while (true) {
                 s1 = serv.accept();
+                boolean shouldStop = false;
                 BufferedReader fromClient = new BufferedReader(
                         new BufferedReader(new InputStreamReader(s1.getInputStream()))
                 );
-                String str;
                 System.out.println("Wait for the text");
+                String str;
                 while((str = fromClient.readLine()) != null) {
                     System.out.println("get from client > "+str);
                     if (str.trim().equals("stopSignal")){
+                        shouldStop = true;
                         break;
                     }
                 }
                 fromClient.close();
-                System.out.println("Server down");
-                break;
+                if (shouldStop) {
+                    System.out.println("Server down");
+                    break;
+                }
             }
         } catch (Exception e) {    
             System.out.println("Server setup error"+e);

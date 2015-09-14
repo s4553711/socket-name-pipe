@@ -12,6 +12,7 @@ public class TCPServer {
     public static void main(String args[]) throws Exception {
         try {
             serv = new ServerSocket(port, 4);
+            serv.setReceiveBufferSize(8192);
         } catch (Exception e) {
             System.out.println("Init ServerSocket Error"+e);
         }
@@ -19,7 +20,9 @@ public class TCPServer {
         try {
             System.out.println("Starting server...");
             while (true) {
+                System.out.println("wait accept");
                 s1 = serv.accept();
+                System.out.println("get accept");
                 boolean shouldStop = false;
                 BufferedReader fromClient = new BufferedReader(
                         new BufferedReader(new InputStreamReader(s1.getInputStream()))
@@ -27,12 +30,13 @@ public class TCPServer {
                 System.out.println("Wait for the text");
                 String str;
                 while((str = fromClient.readLine()) != null) {
-                    System.out.println("get from client > "+str);
+                    //System.out.println("get from client > "+str);
                     if (str.trim().equals("stopSignal")){
                         shouldStop = true;
                         break;
                     }
                 }
+                System.out.println("end of the text");
                 fromClient.close();
                 if (shouldStop) {
                     System.out.println("Server down");

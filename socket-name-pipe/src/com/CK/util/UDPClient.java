@@ -16,17 +16,16 @@ public class UDPClient {
             DatagramSocket clientSocket = new DatagramSocket();
 
             InetAddress IPAddress = InetAddress.getByName(serverHostname);
-            System.out.println("Attemping to connect to " + IPAddress + ") via UDP port 9876");
+            System.out.println("Attemping to connect to " + IPAddress + ") via UDP port 45678");
 
             byte[] sendData = new byte[16384];
-//            byte[] receiveData = new byte[1024];
 
             String sentence;
             while((sentence = inFromUser.readLine()) != null) {
                 sendData = sentence.getBytes();
-                //System.out.println("Sending data to " + sendData.length + " bytes to server.");
+                System.out.println("Sending data to " + sendData.length + " bytes to server.");
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 45678);
-                clientSocket.send(sendPacket);                
+                clientSocket.send(sendPacket);
             }
             clientSocket.close();
         } catch (UnknownHostException ex) {

@@ -10,11 +10,12 @@ public class UDPServer {
         while(true) {
             DatagramPacket packet = new DatagramPacket(receiveData, receiveData.length);
             server.receive(packet);
-            String str = new String(packet.getData());
-            //System.out.println("str > "+str);
+            String str = new String(receiveData, 0, packet.getLength());
+            //System.out.println(">"+str+"<");
             if (str.equals("stopSignal")) {
-                server.close();
+                break;
             }
         }
+        server.close();
     }
 }

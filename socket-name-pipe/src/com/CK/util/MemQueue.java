@@ -23,7 +23,9 @@ public class MemQueue implements Runnable {
             while(isRunning) {
                 while (!queue.isEmpty()) {
                     String takeout = new String(this.queue.take());
-                    System.out.println(">>>"+takeout+"<<<");
+                    System.out.println(">>>");
+                    System.out.println(takeout);
+                    System.out.println("<<<");
                     System.out.println("size> "+queue.size());
                     System.out.println("isEmpty> "+queue.isEmpty());
                     writer.print(takeout);

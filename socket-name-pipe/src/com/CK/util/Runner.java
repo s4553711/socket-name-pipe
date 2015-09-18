@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 public class Runner {
     public static void main(String[] args) {
-        System.out.println("GO");
         SocketNamePipe pipe = new SocketNamePipe("localhost", 45678);
         try {
             int nRead;

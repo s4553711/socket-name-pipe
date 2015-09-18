@@ -8,6 +8,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Arrays;
 
 public class SocketServer {
     private DatagramSocket server;
@@ -42,10 +43,12 @@ public class SocketServer {
                 server.receive(packet);
                 System.out.println("after receive ...");
                 //pipe.write(receiveData);
-                queue.put(receiveData);
+                queue.put(Arrays.copyOfRange(receiveData, 0, packet.getLength()));
                 System.out.println("finish write ...");
                 String receive = new String(receiveData, 0, packet.getLength());
-                System.out.println("get > "+receive+" <<");
+                System.out.println("get >>>>>");
+                System.out.println(receive);
+                System.out.println("<<<<<");
                 if (receive.equals("stopSignal")) {
                     System.out.println("Receive stop signal ...");
                     break;

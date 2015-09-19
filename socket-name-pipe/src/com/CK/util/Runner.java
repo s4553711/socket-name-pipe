@@ -5,13 +5,15 @@ import java.io.InputStream;
 
 public class Runner {
     public static void main(String[] args) {
-        SocketNamePipe pipe = new SocketNamePipe("localhost", 45678);
+        //SocketNamePipe pipe = new SocketNamePipe("localhost", 45678);
+        TCPNamedPipe pipe = new TCPNamedPipe("localhost", 45678);
         try {
             int nRead;
-            byte[] data = new byte[16384];
+            byte[] data = new byte[8192];
             InputStream is = System.in;
             while ((nRead = is.read(data, 0, data.length)) != -1) {
-                pipe.write(data, nRead);
+                //pipe.write(data, nRead);
+                pipe.push(data, nRead);
             }
         } catch (IOException e) {
             System.out.println("Error");

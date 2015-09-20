@@ -20,18 +20,22 @@ public class MemQueue implements Runnable {
         try {
             System.out.println("runnable");
             PrintWriter writer = new PrintWriter("./a.txt", "UTF-8");
-            while(isRunning) {
+            while(true) {
                 while (!queue.isEmpty()) {
                     String takeout = new String(this.queue.take());
-                    System.out.println(">>>");
-                    System.out.println(takeout);
-                    System.out.println("<<<");
-                    System.out.println("size> "+queue.size());
-                    System.out.println("isEmpty> "+queue.isEmpty());
-                    writer.print(takeout);
+                    //System.out.println(">>>");
+                    //System.out.println(takeout);
+                    //System.out.println("<<<");
+                    //System.out.println("size> "+queue.size());
+                    //System.out.println("isEmpty> "+queue.isEmpty());
+                    //writer.print(takeout);
                 }
                 System.out.println("empty");
-                Thread.sleep(2000);
+                if (!isRunning) {
+                    System.out.println("clear and leave the thread");
+                    break;
+                }
+                Thread.sleep(1000);
             }
             writer.close();
             System.out.println("thread begin to done");

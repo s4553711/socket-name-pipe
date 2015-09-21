@@ -18,17 +18,18 @@ public class MemQueue implements Runnable {
     
     public void run() {
         try {
+            int i = 0;
             System.out.println("runnable");
             PrintWriter writer = new PrintWriter("./a.txt", "UTF-8");
             while(true) {
                 while (!queue.isEmpty()) {
+                    i++;
                     String takeout = new String(this.queue.take());
                     //System.out.println(">>>");
                     //System.out.println(takeout);
                     //System.out.println("<<<");
-                    //System.out.println("size> "+queue.size());
-                    //System.out.println("isEmpty> "+queue.isEmpty());
-                    //writer.print(takeout);
+                    //System.out.println("size> "+i+" with "+queue.size()+" "+takeout.length());
+                    writer.print(takeout);
                 }
                 System.out.println("empty");
                 if (!isRunning) {
@@ -53,5 +54,9 @@ public class MemQueue implements Runnable {
             System.out.println("Error while take out contetn from blocking queue");
         }
         System.out.println("Thread end");
+    }
+
+    public void put(byte[] realPack) throws InterruptedException {
+        this.queue.put(realPack);
     }
 }

@@ -5,15 +5,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TCPSocketServer {
     private ServerSocket server;
     private byte[] receiveData = new byte[8192];
-    private MemQueue out;
+    private MemQueue mem;
     Thread t;
-    private BlockingQueue<byte[]> queue;
     
     public TCPSocketServer(int port) {
         try {
@@ -21,9 +19,8 @@ public class TCPSocketServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        queue = new LinkedBlockingQueue<>();
-        out = new MemQueue(queue);
-        t = new Thread(out);
+        mem = new MemQueue(new LinkedBlockingQueue<byte[]>());
+        t = new Thread(mem);
         t.start();          
     }
     
@@ -45,8 +42,8 @@ public class TCPSocketServer {
                         byte[] realPack = Arrays.copyOfRange(receiveData, 0, bytesRead);
                         receive = new String(realPack);
                         //System.out.println("read .. "+bytesRead+", really size:"+receiveData.length);
-                        //System.out.println("put .. \n"+receive);
-                        queue.put(realPack);                        
+                        //System.out.println("put .. \n"+receive);                       
+                        mem.put(realPack);
                     }
                 }
                 if (receive.trim().equals("stopSignal")) {
@@ -61,19 +58,16 @@ public class TCPSocketServer {
             }
         }
         this.close();
-        try {
-            System.out.println("Wait the thread to join");
-            t.join();
-            System.out.println("thread is now join");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
     
     private void close() {
         try {
             server.close();
-            out.terminate();    
+            mem.terminate();
+            t.join();
+        } catch (InterruptedException e) {
+            System.out.println("close thread error");
+            t.interrupt();
         } catch (IOException e) {
             System.out.println("TCP server close error");
         }

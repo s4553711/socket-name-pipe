@@ -30,6 +30,7 @@ public class TCPSocketServer {
         while(true) {
             try {
                 s1 = server.accept();
+                System.out.println("accept");
                 DataInputStream in = new DataInputStream(s1.getInputStream());
                 int bytesRead = 0;
                 boolean end = false;
@@ -40,13 +41,15 @@ public class TCPSocketServer {
                         end = true;
                     } else {
                         byte[] realPack = Arrays.copyOfRange(receiveData, 0, bytesRead);
-                        receive = new String(realPack);
+                        receive = new String(realPack).trim();
                         //System.out.println("read .. "+bytesRead+", really size:"+receiveData.length);
-                        //System.out.println("put .. \n"+receive);                       
-                        mem.put(realPack);
+                        //System.out.println("put .. \n"+receive); 
+                        if (!receive.equals("stopSignal")) {
+                            mem.put(realPack);                    
+                        }
                     }
                 }
-                if (receive.trim().equals("stopSignal")) {
+                if (receive.equals("stopSignal")) {
                     System.out.println("Receive stop signal ...");
                     break;
                 }

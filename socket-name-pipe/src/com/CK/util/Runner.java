@@ -5,8 +5,7 @@ import java.io.InputStream;
 
 public class Runner {
     public static void main(String[] args) {
-        //SocketNamePipe pipe = new SocketNamePipe("localhost", 45678);
-        TCPNamedPipe pipe = new TCPNamedPipe("localhost", 45678);
+        TCPNamedPipe pipe = new TCPNamedPipe("localhost", Integer.valueOf(args[0]));
         try {
             int nRead;
             byte[] data = new byte[8192];

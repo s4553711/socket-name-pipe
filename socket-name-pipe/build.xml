@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="hipipe" basedir="." default="build">  
+	<target name="clean">
+        <delete dir="${classes.dir}" failonerror="false"/>
+    </target>
+    
+    <target name="init">
+        <property name="src.dir" location="src"/>
+        <property name="classes.dir" location="bin"/>
+    </target>
+    
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}">
+        </javac>
+    </target>
+    
+    <target name="jar">
+        <jar destfile="NamedSocket.jar">
+            <manifest>
+                <attribute name="Built-by" value="s4553711"/>
+                <attribute name="Manifest-Version" value="1.0"/>
+            </manifest>
+            <fileset dir="${classes.dir}"/>
+        </jar>
+    </target>
+    
+    <target name="build" depends="init, clean, compile" />
+</project>

@@ -24,6 +24,12 @@
             <fileset dir="${classes.dir}"/>
         </jar>
     </target>
-    
+
+	<target name="server" depends="init">
+		<java classname="com.CK.util.TCPServer" classpath="${classes.dir}">
+			<arg value="45678"/>
+		</java>
+	</target>
+
     <target name="build" depends="init, clean, compile" />
 </project>

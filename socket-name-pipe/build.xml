@@ -31,5 +31,8 @@
 		</java>
 	</target>
 
-    <target name="build" depends="init, clean, compile" />
+	<target name="build" depends="init, clean, compile" />
+
+	<target name="test">
+	</target>
 </project>

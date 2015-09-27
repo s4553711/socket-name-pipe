@@ -26,7 +26,7 @@ public class MemQueue implements Runnable {
                     i++;
                     String takeout = new String(this.queue.take());
                     //System.out.println(">>>");
-                    //System.out.println(takeout);
+                    System.out.println(takeout);
                     //System.out.println("<<<");
                     //System.out.println("size> "+i+" with "+queue.size()+" "+takeout.length());
                     writer.print(takeout);

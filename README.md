@@ -1,3 +1,6 @@
+[![Coverage Status](https://coveralls.io/repos/s4553711/socket-name-pipe/badge.svg)](https://coveralls.io/r/s4553711/socket-name-pipe)  
+[![Build Status](https://travis-ci.org/s4553711/socket-name-pipe.svg?branch=master)](https://travis-ci.org/s4553711/socket-name-pipe) 
+
 Read fsatq input then pass to Runner
 ```
 # Compile

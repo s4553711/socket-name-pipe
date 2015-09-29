@@ -2,15 +2,20 @@
 <project name="hipipe" basedir="." default="build">  
 	<target name="clean">
         <delete dir="${classes.dir}" failonerror="false"/>
+		<delete dir="${test.classes.dir}" failonerror="false"/>
     </target>
     
     <target name="init">
         <property name="src.dir" location="src"/>
-        <property name="classes.dir" location="bin"/>
+    	<property name="test.src.dir" location="test"/>
+        <property name="classes.dir" location="bin/src"/>
+    	<property name="test.classes.dir" location="bin/test"/>
+    	<property name="junit.dir" value="lib/junit-4.12.jar"/>
     </target>
     
     <target name="compile">
         <mkdir dir="${classes.dir}"/>
+    	<mkdir dir="${test.classes.dir}"/>
         <javac srcdir="${src.dir}" destdir="${classes.dir}">
         </javac>
     </target>
@@ -33,6 +38,30 @@
 
 	<target name="build" depends="init, clean, compile" />
 
-	<target name="test">
+	<target name="test" depends="build">
+		<javac srcdir="${test.src.dir}" destdir="${test.classes.dir}">
+			<classpath> 
+			    <pathelement location="src"/>  
+				<pathelement location="${junit.dir}"/>  
+			</classpath>
+		</javac>
+		<java classname="org.junit.runner.JUnitCore">
+			<classpath path="${test.classes.dir}:${classes.dir}:${junit.dir}:lib/hamcrest-core-1.3.jar"/>
+			<arg value="com.CK.util.MemQueueTest"/>
+		</java>
+		<!--<path id="compile.path">
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset>
+			<fileset dir="bin/src">
+				<include name="**/*.class"/>
+			</fileset>
+            <fileset dir="bin/test">
+                <include name="**/*.class"/>
+            </fileset>			
+		</path>
+		<junit refid="compile.path">
+			<test name="com.CK.util.MemQueueTest"/>
+		</junit>-->
 	</target>
 </project>

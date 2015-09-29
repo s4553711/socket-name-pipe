@@ -1,39 +1,50 @@
 package com.CK.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MemQueueTest {
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    
+    private ByteArrayOutputStream outContent;
+    private MemQueue mem;
+    private Thread t;
     
     @Before
-    public void setUpStreams() {
+    public void setUp() {
+        outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
+        mem = new MemQueue(new LinkedBlockingQueue<byte[]>());
+        t = new Thread(mem);
     }
    
     @Test
     public void testPut() {
-        MemQueue mem = new MemQueue(new LinkedBlockingQueue<byte[]>());
         byte[] message = {41, 42, 43, 100};
         try {
-            Thread t = new Thread(mem);
             t.start();
             mem.put(message);
-            t.sleep(1000);
+            Thread.sleep(1000);
             assertEquals("runnable\n)*+d\nempty\n", outContent.toString());            
-            mem.terminate();
-            t.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    
+    @After
+    public void tearDown() {
+        mem.terminate();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            System.out.println("Error while join thread : "+e.getMessage());
+        }        
     }
 
 }

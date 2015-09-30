@@ -41,7 +41,7 @@
 	<target name="test" depends="build">
 		<javac srcdir="${test.src.dir}" destdir="${test.classes.dir}">
 			<classpath> 
-			    <pathelement location="src"/>  
+				<pathelement location="${classes.dir}"/>  
 				<pathelement location="${junit.dir}"/>  
 			</classpath>
 		</javac>

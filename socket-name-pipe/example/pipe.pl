@@ -25,7 +25,7 @@ if ($pid2 == 0) {
 sub fastqReader {
 	my ($file, $port) = @_;
 	my $ifh = undef;
-	my $command = "zcat $file | head -n 1200 | java -cp bin/src com.CK.util.Runner $port ".
+	my $command = "cat $file | java -cp bin/src com.CK.util.Runner $port ".
 		";echo -n 'stopSignal' | java -cp bin/src com.CK.util.Runner $port |";
 	#print ">> $command\n";
 	open ($ifh, $command);

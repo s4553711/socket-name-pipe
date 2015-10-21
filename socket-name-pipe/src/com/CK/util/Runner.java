@@ -5,7 +5,11 @@ import java.io.InputStream;
 
 public class Runner {
     public static void main(String[] args) {
-        TCPNamedPipe pipe = new TCPNamedPipe("localhost", Integer.valueOf(args[0]));
+		if (args.length < 2) {
+			System.out.println("Usage> Runner [port|1234] [domain name|localhost]");
+			return;
+		}
+        TCPNamedPipe pipe = new TCPNamedPipe(args[1], Integer.valueOf(args[0]));
         try {
             int nRead;
             byte[] data = new byte[8192];

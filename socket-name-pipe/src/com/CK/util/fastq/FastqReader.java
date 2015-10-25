@@ -11,19 +11,19 @@ public class FastqReader {
     }
 
     public String readLine() throws IOException {
-        String result = null;
+        StringBuilder result = new StringBuilder();
         for(int i = 1;i <=4; i++ ) {
             String line = reader.readLine();
             if (line == null) {
                 break;
             } else {
-                if (i == 1){
-                    result = line + "\n";
-                } else {
-                    result += line + "\n";
-                }
+                result.append(line+"\n");
             }
-        }
-        return result;
+        }     
+        return result.length() == 0 ? null : result.toString();
+    }
+    
+    public void close() throws IOException {
+        reader.close();
     }
 }

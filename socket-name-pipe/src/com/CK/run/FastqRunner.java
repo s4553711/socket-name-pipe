@@ -9,11 +9,9 @@ import com.CK.util.fastq.FastqReader;
 
 public class FastqRunner {
     public static void main(String[] args) {
-        System.out.println("Number of args "+args.length);
         TCPNamedPipe[] pipes = new TCPNamedPipe[args.length];
         for(int j = 0; j < args.length; j++) {
             pipes[j] = new TCPNamedPipe("localhost", Integer.valueOf(args[j]));
-            System.out.println("Create "+j+" for "+args[j]);
         }
         try {
             FastqReader br = new FastqReader(new BufferedReader(new InputStreamReader(System.in)));

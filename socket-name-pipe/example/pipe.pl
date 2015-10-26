@@ -25,9 +25,8 @@ if ($pid2 == 0) {
 sub fastqReader {
 	my ($file, $port) = @_;
 	my $ifh = undef;
-	my $command = "cat $file | java -cp bin/src com.CK.util.Runner $port ".
-		";echo -n 'stopSignal' | java -cp bin/src com.CK.util.Runner $port |";
-	#print ">> $command\n";
+	my $command = "cat $file | java -cp bin/src com.CK.util.Runner $port localhost".
+		";echo -n 'stopSignal' | java -cp bin/src com.CK.util.Runner $port localhost |";
 	open ($ifh, $command);
 	while (my $line = <$ifh>) {
 		print $line;

@@ -31,7 +31,7 @@ public class MemQueueTest {
             t.start();
             mem.put(message);
             Thread.sleep(1000);
-            assertEquals("runnable\n)*+d\nempty\n", outContent.toString());            
+            assertEquals(")*+d", outContent.toString());            
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

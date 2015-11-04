@@ -17,3 +17,14 @@ $ java -cp src com.CK.util.TCPServer
 # Start send data from zcat
 $ zcat ~/upload/A_10w_R1_40.fastq.gz | head -n 10 | java -cp src com.CK.util.Runner
 ```
+
+Another example for bowtie2
+```bash
+# Execute two bowtie2 process and wait for the paired-reads
+$ $BT2_HOME/bowtie2 --local -x lambda_virus -1 <(java -cp /home/user/git/socket-name-pipe/socket-name-pipe/bin/src com.CK.util.TCPServer 45678) -2 <(java -cp /home/user/git/socket-name-pipe/socket-name-pipe/bin/src com.CK.util.TCPServer 45679) -S eg1.sam
+$ BT2_HOME/bowtie2 --local -x lambda_virus -1 <(java -cp /home/user/git/socket-name-pipe/socket-name-pipe/bin/src com.CK.util.TCPServer 45680) -2 <(java -cp /home/user/git/socket-name-pipe/socket-name-pipe/bin/src com.CK.util.TCPServer 45681) -S eg2.sam
+
+# Send reads from another process
+$ cat ~/git/bowtie2/example/reads/reads_1.fq |java -cp bin/src com.CK.run.FastqRunner 45678 45680 ; echo 'stopSignal' | java -cp bin/src com.CK.util.Runner 45678 localhost; echo 'stopSignal' | java -cp bin/src com.CK.util.Runner 45680 localhost;
+$ cat ~/git/bowtie2/example/reads/reads_2.fq |java -cp bin/src com.CK.run.FastqRunner 45679 45681 ; echo 'stopSignal' | java -cp bin/src com.CK.util.Runner 45679 localhost; echo 'stopSignal' | java -cp bin/src com.CK.util.Runner 45681 localhost;
+```

@@ -1,4 +1,7 @@
 #!/usr/bin/perl
+#
+# Usage: bowtie2-dispatch.pl read_1.fastq read_2.fastq 45678 45680
+#
 use strict;
 use warnings;
 use utf8;

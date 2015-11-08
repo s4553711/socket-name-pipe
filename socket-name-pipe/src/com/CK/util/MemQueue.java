@@ -16,10 +16,8 @@ public class MemQueue implements Runnable {
     
     public void run() {
         try {
-            int i = 0;
             while(true) {
                 while (!queue.isEmpty()) {
-                    i++;
                     String takeout = new String(this.queue.take());
                     System.out.print(takeout);
                 }

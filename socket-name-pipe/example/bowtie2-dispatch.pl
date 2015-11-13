@@ -9,23 +9,28 @@ use Data::Dumper;
 
 my $pair1 = shift;
 my $pair2 = shift;
-my @ports;
+my @portsR1;
+my @portsR2;
 for my $tmp (@ARGV) {
-	push(@ports, $tmp);
+	my @str = split(/:/, $tmp);
+	push(@portsR1, "$str[0]:$str[1]");
+	push(@portsR2, "$str[0]:".($str[1]+1));
 }
+
+print Dumper(@portsR1);
+print Dumper(@portsR2);
 
 my $pid = 0;
 $pid = fork();
 if ($pid == 0) {
-	fastqReader($pair1, \@ports);
+	fastqReader($pair1, \@portsR1);
 	exit;
 }
 
-my @ports2 = map {$_ + 1} @ports;
 my $pid2 = 0;
 $pid2 = fork();
 if ($pid2 == 0) {
-	fastqReader($pair2, \@ports2);
+	fastqReader($pair2, \@portsR2);
 	exit;
 }
 
@@ -39,6 +44,7 @@ sub fastqReader {
 		$command .= "echo 'stopSignal' | java -cp ../bin/src com.CK.util.Runner $i localhost; ";
 	}
 	$command .= " |";
+	print ">> $command\n";
 	open ($ifh, $command);
 	while (my $line = <$ifh>) {
 		#print $line;

@@ -13,6 +13,10 @@ function fork() {
 		-1 <(java -cp /home/s4553711/git/socket-name-pipe/socket-name-pipe/bin/src com.CK.util.TCPServer ${porta}) \
 		-2 <(java -cp /home/s4553711/git/socket-name-pipe/socket-name-pipe/bin/src com.CK.util.TCPServer ${portb}) \
 		-S ${porta}.sam &> ${porta}.log
+	echo "arg> ${BT2_HOME}/bowtie2 --local -x lambda_virus" >> ${porta}.log
+	echo "arg> ${porta})" >> ${porta}.log
+	echo "arg> ${portb})" >> ${porta}.log
+	echo "arg> -S ${porta}.sam &> ${porta}.log" >> ${porta}.log
 	echo "end" >> ${porta}.log
 }
 

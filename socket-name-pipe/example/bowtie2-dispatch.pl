@@ -37,7 +37,8 @@ if ($pid2 == 0) {
 sub fastqReader {
 	my ($file, $port) = @_;
 	my $ifh = undef;
-	my $ports = join(" ",@{$port});
+	my $ports = "";
+	map { $ports .= "localhost:$_ " } @{$port};
 
 	my $command = "cat $file |java -cp ../bin/src com.CK.run.FastqRunner $ports; ";
 	for my $i (@{$port}) {

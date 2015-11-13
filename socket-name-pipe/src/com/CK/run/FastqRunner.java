@@ -11,7 +11,12 @@ public class FastqRunner {
     public static void main(String[] args) {
         TCPNamedPipe[] pipes = new TCPNamedPipe[args.length];
         for(int j = 0; j < args.length; j++) {
-            pipes[j] = new TCPNamedPipe("localhost", Integer.valueOf(args[j]));
+			String[] argPart = args[j].split(":");
+			if (argPart.length < 2) {
+				System.out.println("Illegal argument.");
+				return;
+			}
+            pipes[j] = new TCPNamedPipe(argPart[0], Integer.valueOf(argPart[1]));
         }
         try {
             FastqReader br = new FastqReader(new BufferedReader(new InputStreamReader(System.in)));

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Usage: bowtie2-dispatch.pl read_1.fastq read_2.fastq 45678 45680
+# Usage: bowtie2-dispatch.pl read_1.fastq read_2.fastq localhost:45678 localhost:45680
 #
 use strict;
 use warnings;
@@ -16,9 +16,6 @@ for my $tmp (@ARGV) {
 	push(@portsR1, "$str[0]:$str[1]");
 	push(@portsR2, "$str[0]:".($str[1]+1));
 }
-
-print Dumper(@portsR1);
-print Dumper(@portsR2);
 
 my $pid = 0;
 $pid = fork();
@@ -37,15 +34,13 @@ if ($pid2 == 0) {
 sub fastqReader {
 	my ($file, $port) = @_;
 	my $ifh = undef;
-	my $ports = "";
-	map { $ports .= "localhost:$_ " } @{$port};
 
-	my $command = "cat $file |java -cp ../bin/src com.CK.run.FastqRunner $ports; ";
+	my $command = "cat $file |java -cp ../bin/src com.CK.run.FastqRunner ".join(' ', @{$port})."; ";
 	for my $i (@{$port}) {
-		$command .= "echo 'stopSignal' | java -cp ../bin/src com.CK.util.Runner $i localhost; ";
+		my @col = split(/:/, $i);
+		$command .= "echo 'stopSignal' | java -cp ../bin/src com.CK.util.Runner $col[1] $col[0]; ";
 	}
 	$command .= " |";
-	print ">> $command\n";
 	open ($ifh, $command);
 	while (my $line = <$ifh>) {
 		#print $line;

@@ -19,15 +19,25 @@ public class FastqRunner {
             pipes[j] = new TCPNamedPipe(argPart[0], Integer.valueOf(argPart[1]));
         }
         try {
-            FastqReader br = new FastqReader(new BufferedReader(new InputStreamReader(System.in)));
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             String line;
+			String tmp = "";
             int fastqNum = 0;
+			int i = 1;
             while((line = br.readLine()) != null) {
-                  int pipesIndex = fastqNum % pipes.length;
-                  byte[] data = line.getBytes();
-                  pipes[pipesIndex].push(data, data.length);
-                  System.out.println("Send fastqNum: "+fastqNum+" to "+pipesIndex);
-                  fastqNum++;
+				if ((i % 4) == 0) {
+					tmp = tmp.concat(line+"\n");
+					int pipesIndex = fastqNum % pipes.length;
+					byte[] data = tmp.getBytes();
+					pipes[pipesIndex].push(data, data.length);
+					//System.out.println("Send fastqNum: "+fastqNum+" to "+pipesIndex);
+					fastqNum++;
+					tmp = "";
+				} else {
+					tmp = tmp.concat(line+"\n");
+				}
+				i++;
+
             }
         } catch (IOException e) {
             System.out.println("Error");

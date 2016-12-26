@@ -28,3 +28,11 @@ $ BT2_HOME/bowtie2 --local -x lambda_virus -1 <(java -cp /home/user/git/socket-n
 $ cat ~/git/bowtie2/example/reads/reads_1.fq |java -cp bin/src com.CK.run.FastqRunner 45678 45680 ; echo 'stopSignal' | java -cp bin/src com.CK.util.Runner 45678 localhost; echo 'stopSignal' | java -cp bin/src com.CK.util.Runner 45680 localhost;
 $ cat ~/git/bowtie2/example/reads/reads_2.fq |java -cp bin/src com.CK.run.FastqRunner 45679 45681 ; echo 'stopSignal' | java -cp bin/src com.CK.util.Runner 45679 localhost; echo 'stopSignal' | java -cp bin/src com.CK.util.Runner 45681 localhost;
 ```
+
+Sam Sender & Receiver
+```
+# Sender: Read bam file and dispatch reads to different client by chr ID
+$ ~/git/samtools/samtools view -hS /mnt/repo1/backup/bio/alignment/wgEncodeUwRepliSeqBg02esG1bAlnRep1.bam  | java -cp build/libs/socket-name-pipe.jar com.CK.run.SamDispatch 2003
+# Receiver
+$ java -cp ~/workspace/Nsock.jar com.ck.NettyServer 2003  | ~/git/samtools/samtools view -hSb - | ~/git/samtools/samtools sort -o sort.bam
+```

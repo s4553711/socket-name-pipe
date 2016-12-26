@@ -6,4 +6,4 @@ for i in $(seq 1 1); do
 	#/usr/bin/time -v -o $i.time.log cat /dev/shm/a.sam  | java -cp build/libs/socket-name-pipe.jar com.CK.run.SamDispatch 2003 &
 done
 wait
-echo 'stop' > /dev/tcp/127.0.0.1/2003
+#echo 'stop' > /dev/tcp/127.0.0.1/2003

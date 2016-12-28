@@ -13,7 +13,7 @@ public class SamHandler extends ChannelInboundHandlerAdapter {
 		try {
 			byte[] bytes = new byte[in.readableBytes()];
 			in.readBytes(bytes);
-			System.out.println(new String(bytes, "US-ASCII"));
+			System.out.print(new String(bytes, "US-ASCII"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} finally {

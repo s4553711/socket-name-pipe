@@ -15,7 +15,8 @@ while read line; do
 		chr=$(echo $line|awk '{print $1}')
 		indx=$(echo $line|awk '{print $3}')
 		echo "java -cp build/libs/socket-name-pipe.jar com.CK.run.SamReceiver $host " $((start_port+inc))
-		java -cp build/libs/socket-name-pipe.jar com.CK.run.SamReceiver $((start_port+inc)) > fifo/"${chr}_${indx}.log"&
+		java -cp build/libs/socket-name-pipe.jar com.CK.run.SamReceiver $((start_port+inc)) 1> fifo/"${chr}_${indx}.log" 2> fifo/"${chr}_${indx}.err" &
+		#java -cp build/libs/socket-name-pipe.jar com.CK.util.TCPServer $((start_port+inc)) > fifo/"${chr}_${indx}.log" 2> fifo/"${chr}_${indx}.err" &
 		inc=$((inc+1))
 	fi
 done<$file

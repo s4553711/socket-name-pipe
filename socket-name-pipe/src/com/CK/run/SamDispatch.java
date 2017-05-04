@@ -20,7 +20,7 @@ public class SamDispatch {
 				if (!line.startsWith("@")) {
 					String[] col = line.split("\t");
 					byte[] data = line.concat("\n").getBytes();
-					int index = (int)Math.floor(Integer.valueOf(col[3])/249250621);
+					int index = (int)Math.floor(Integer.valueOf(col[3])/10000000);
 					String chrI = col[2].replace("chr", "");
 					//System.out.println("send > "+chrI+"-"+index+"("+col[2]+","+col[3]+")");
 					maps.get(chrI+"-"+index).push(data, data.length);

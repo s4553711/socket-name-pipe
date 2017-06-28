@@ -18,6 +18,7 @@ import io.netty.channel.FixedRecvByteBufAllocator;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 
 public class SamReceiver {
 	
@@ -43,6 +44,7 @@ public class SamReceiver {
 	}
 
     public void run() throws Exception {
+
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -53,7 +55,9 @@ public class SamReceiver {
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
                 	 ch.config().setRecvByteBufAllocator(new FixedRecvByteBufAllocator(8*1024*1024));
-                     ch.pipeline().addLast(new SamHandler());
+                     ch.pipeline().addLast(
+                    		 new LineBasedFrameDecoder(8192),
+                    		 new SamHandler());
                  }
              })
              .option(ChannelOption.SO_BACKLOG, 128)
@@ -75,7 +79,7 @@ public class SamReceiver {
         }
     }
 
-	static void registerInterrupt(final SamReceiver server) {
+	private static void registerInterrupt(final SamReceiver server) {
     	Runtime.getRuntime().addShutdownHook(new Thread()
         {
             @Override
@@ -87,7 +91,7 @@ public class SamReceiver {
         });
     }
 
-    public static void readHeader() {
+    private static void readHeader() {
     	BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader("header.sam"));

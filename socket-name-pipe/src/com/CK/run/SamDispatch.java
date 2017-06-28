@@ -14,19 +14,30 @@ public class SamDispatch {
 
 		Map<String, TCPNamedPipe> maps = init_sys(args[0]);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String line;
+		int Interval = Integer.valueOf(args[1]);
+		String line, chrI = "";
+		int index = -1;
 		try {
+			TCPNamedPipe key;
 			while((line = br.readLine()) != null) {
 				if (!line.startsWith("@")) {
 					String[] col = line.split("\t");
 					byte[] data = line.concat("\n").getBytes();
-					int index = (int)Math.floor(Integer.valueOf(col[3])/10000000);
-					String chrI = col[2].replace("chr", "");
+					index = (int)Math.floor(Integer.valueOf(col[3])/Interval);
+					chrI = col[2].replace("chr", "");
 					//System.out.println("send > "+chrI+"-"+index+"("+col[2]+","+col[3]+")");
-					maps.get(chrI+"-"+index).push(data, data.length);
+					key = maps.get(chrI+"-"+index);
+					if (key == null) {
+						maps.get("M-0").push(data, data.length);
+					} else {
+						key.push(data, data.length);
+					}
 				}
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println("Error > "+chrI+"-"+index);
 			e.printStackTrace();
 		}
 		for(String p: maps.keySet()) {

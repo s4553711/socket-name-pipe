@@ -26,7 +26,7 @@ public class TCPServer {
     }
 	
     public static void main(String args[]) {
-    	readHeader();
+    	//readHeader();
         TCPSocketServer server = new TCPSocketServer(Integer.valueOf(args[0]));
         server.receive();
     }

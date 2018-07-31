@@ -1,5 +1,12 @@
+plugins {
+    id 'com.github.ksoichiro.build.info' version '0.2.0'
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()

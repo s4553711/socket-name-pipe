@@ -24,7 +24,7 @@ public class TCPSocketServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mem = new MemQueue(new LinkedBlockingQueue<byte[]>());
+        mem = new MemQueue(new LinkedBlockingQueue<byte[]>(1500000));
         t = new Thread(mem);
         t.start();
     }

@@ -56,7 +56,7 @@ public class SamDispatch {
 				if (line.startsWith("Interval") || line.startsWith("Chr")) {
 					continue;
 				}
-				String[] cols = line.split("\t");
+				String[] cols = line.split("\\s+");
 				System.out.println(cols[0]+"-"+cols[2]+", "+cols[3]+", "+(i+start_port));
 				maps.put(cols[0]+"-"+cols[2], new TCPNamedPipe(cols[3], i+start_port));
 				i++;

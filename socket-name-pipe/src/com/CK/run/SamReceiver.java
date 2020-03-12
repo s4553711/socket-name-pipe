@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.CK.util.sam.SamHandler;
+import com.CK.util.sam.SamNewHandler;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -14,11 +14,11 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.FixedRecvByteBufAllocator;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 
 public class SamReceiver {
 	
@@ -54,10 +54,11 @@ public class SamReceiver {
              .childHandler(new ChannelInitializer<SocketChannel>() {
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
-                	 ch.config().setRecvByteBufAllocator(new FixedRecvByteBufAllocator(8*1024*1024));
-                     ch.pipeline().addLast(
-                    		 new LineBasedFrameDecoder(8192),
-                    		 new SamHandler());
+                    //ch.config().setRecvByteBufAllocator(new FixedRecvByteBufAllocator(8*1024*1024));
+                    ch.pipeline().addLast(
+                            new LineBasedFrameDecoder(16384),
+                            new StringDecoder(),
+                            new SamNewHandler());
                  }
              })
              .option(ChannelOption.SO_BACKLOG, 128)
